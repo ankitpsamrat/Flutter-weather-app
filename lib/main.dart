@@ -9,7 +9,7 @@ void main() {
       // home: HomePage(),
       routes: {
         "/": (context) => LoadingPage(),
-        "/homepage": (context) => HomePage(),
+        "/home": (context) => HomePage(),
       },
     ),
   );
