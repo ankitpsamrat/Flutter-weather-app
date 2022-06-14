@@ -6,6 +6,7 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Weather App',
       // home: HomePage(),
       routes: {
         "/": (context) => LoadingPage(),

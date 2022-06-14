@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weather_app/utils/data.dart';
@@ -78,7 +76,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   void initState() {
-    // startApp();
+    startApp();
     super.initState();
   }
 
@@ -96,7 +94,7 @@ class _LoadingPageState extends State<LoadingPage> {
               width: 250,
             ),
             Text(
-              'Weather App',
+              'WELCOME !',
               style: TextStyle(
                 fontSize: 30,
                 color: Colors.white,
