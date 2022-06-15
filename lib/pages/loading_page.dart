@@ -56,8 +56,11 @@ class _LoadingPageState extends State<LoadingPage> {
   late String air_speed;
   late String des;
   late String main;
-  void startApp() async {
-    worker instance = worker(location: "Dhar");
+  late String icon;
+  late String city = 'Varanasi';
+  //
+  void startApp(String city) async {
+    worker instance = worker(location: city);
     await instance.getData();
 
     temp = instance.temp;
@@ -65,23 +68,33 @@ class _LoadingPageState extends State<LoadingPage> {
     air_speed = instance.air_speed;
     des = instance.description;
     main = instance.main;
+    icon = instance.icon;
+    //
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       "temp_value": temp,
       "hum_value": hum,
       "air_speed_value": air_speed,
       "des_value": des,
-      "main_value": main
+      "main_value": main,
+      "icon_value": icon,
+      "city_value": city,
     });
   }
 
   @override
   void initState() {
-    startApp();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    //
+    Map search = ModalRoute.of(context)!.settings.arguments as Map;
+    if (search?.isNotEmpty ?? true) {
+      city = search['searchText'];
+    }
+    startApp(city);
+    //
     return Scaffold(
       backgroundColor: Colors.blue[200],
       body: Center(

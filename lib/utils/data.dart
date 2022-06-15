@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:http/http.dart';
 
@@ -64,6 +62,7 @@ class worker {
   late String air_speed;
   late String description;
   late String main;
+  late String icon;
 
   //method
 
@@ -83,7 +82,7 @@ class worker {
       //Getting air_speed
 
       Map wind = data['wind'];
-      double getAir_speed = wind["speed"]/0.27777777777778;
+      double getAir_speed = wind["speed"] / 0.27777777777778;
 
       //Getting Description
 
@@ -99,12 +98,14 @@ class worker {
       air_speed = getAir_speed.toString();
       description = getDesc;
       main = getMain_des;
+      icon = weather_main_data['icon'].toString();
     } catch (e) {
       temp = 'Can not find data';
       humidity = 'Can not find data';
       air_speed = 'Can not find data';
       description = 'Can not find data';
       main = 'Can not find data';
+      icon = '404';
     }
   }
 }

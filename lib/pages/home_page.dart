@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_icons/flutter_weather_icons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +11,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //
+  TextEditingController searchController = new TextEditingController();
+
+  //
   @override
   void initState() {
     super.initState();
@@ -42,6 +47,14 @@ class _HomePageState extends State<HomePage> {
     final _random = new Random();
     var city = city_name[_random.nextInt(city_name.length)];
 
+    Map info = ModalRoute.of(context)!.settings.arguments as Map;
+    String temp = ((info['temp_value']).toString()).substring(0, 4);
+    String air = ((info['air_speed_value']).toString()).substring(0, 4);
+    String des = info['des_value'];
+    String icon = info['icon_value'];
+    String getcity = info['city_value'];
+    String hum = info['hum_value'];
+
     return Scaffold(
       // appBar: PreferredSize(
       //   preferredSize: Size.fromHeight(0),
@@ -60,6 +73,7 @@ class _HomePageState extends State<HomePage> {
       //     ),
       //   ),
       // ),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -89,7 +103,9 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/loading',arguments: {'searchText':searchController.text,});
+                      },
                       child: Container(
                         child: Icon(Icons.search),
                         padding: EdgeInsets.fromLTRB(3, 0, 7, 0),
@@ -97,6 +113,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Expanded(
                       child: TextField(
+                        controller: searchController,
                         decoration: InputDecoration(
                           hintText: 'Search $city',
                           border: InputBorder.none,
@@ -115,10 +132,36 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white.withOpacity(0.5),
                       ),
                       margin: EdgeInsets.symmetric(
-                        horizontal: 20,
+                        horizontal: 25,
                       ),
-                      padding: EdgeInsets.all(35),
-                      child: Text('ghdgfhd'),
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Image.network(
+                              'http://openweathermap.org/img/wn/$icon@2x.png'),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                des.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'In $getcity',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -133,11 +176,29 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white.withOpacity(0.5),
                       ),
                       margin: EdgeInsets.symmetric(
-                        horizontal: 20,
+                        horizontal: 25,
                         vertical: 10,
                       ),
-                      padding: EdgeInsets.all(35),
-                      child: Text('ghdgfhd'),
+                      padding: EdgeInsets.all(25),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(WeatherIcons.wiThermometer),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                temp,
+                                style: TextStyle(fontSize: 70),
+                              ),
+                              Text(
+                                'C',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -152,9 +213,29 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white.withOpacity(0.5),
                       ),
                       margin: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                      padding: EdgeInsets.all(35),
+                      padding: EdgeInsets.all(25),
                       height: 200,
-                      child: Text('ghdgfhd'),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(WeatherIcons.wiDayWindy),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            air,
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text('km/h'),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
@@ -164,9 +245,29 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white.withOpacity(0.5),
                       ),
                       margin: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                      padding: EdgeInsets.all(35),
+                      padding: EdgeInsets.all(25),
                       height: 200,
-                      child: Text('ghdgfhd'),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(WeatherIcons.wiHumidity),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            hum,
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text('Percentage'),
+                        ],
+                      ),
                     ),
                   ),
                 ],

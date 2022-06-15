@@ -11,6 +11,7 @@ void main() {
       routes: {
         "/": (context) => LoadingPage(),
         "/home": (context) => HomePage(),
+        "/loading": (context) => LoadingPage(),
       },
     ),
   );
